@@ -24,11 +24,7 @@ class BreedRepositoryImpl : DogBreedRepository {
     }
     
     func fetchBreeds() async throws -> DogBreedsResponse {
-        return try await service.request(endpoint: "breeds",
-                                                  method: .GET,
-                                                  queryItems: nil,
-                                                  body: nil,
-                                                  responseType: DogBreedsResponse.self)
+        return try await service.request(endpoint: DogBreedEndpoint.getBreedList, responseType: DogBreedsResponse.self)
     }
 }
 
@@ -41,11 +37,7 @@ class GroupRepositoryImpl : GroupRepository {
     }
     
     func fetchGroups() async throws -> GroupResponse {
-        return try await service.request(endpoint: "groups",
-                                                  method: .GET,
-                                                  queryItems: nil,
-                                                  body: nil,
-                                                  responseType: GroupResponse.self)
+        return try await service.request(endpoint: GroupEndpoint.getGroupList, responseType: GroupResponse.self)
     }
     
 }

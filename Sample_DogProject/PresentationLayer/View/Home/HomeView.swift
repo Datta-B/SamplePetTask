@@ -67,6 +67,11 @@ struct HomeView: View {
                             RowView(name: breed.attributes.name, image: Image("dummyImage"))
                         }
                     }
+                    .refreshable {
+                        Task{
+                            await loadCurrentList()
+                        }
+                    }
                 }
             }else{
                 if groupVM.isLoading{
@@ -79,6 +84,11 @@ struct HomeView: View {
                 }else{
                     List(groupVM.groupList){ group in
                         RowView(name: group.attributes.name, image: Image("dummyImage"))
+                    }
+                    .refreshable {
+                        Task{
+                            await loadCurrentList()
+                        }
                     }
                 }
                 

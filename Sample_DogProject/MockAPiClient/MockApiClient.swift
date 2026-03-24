@@ -8,18 +8,13 @@
 import Foundation
 
 final class MockAPIClient: APIClient {
+   
+    
     var resultData: Data?
     var shouldThrowError: Bool = false
     var errorToThrow: Error = NSError(domain: "TestError", code: -1)
-    
-    func request<T>(
-        endpoint: String,
-        method: HTTPMethod,
-        queryItems: [URLQueryItem]?,
-        body: Data?,
-        responseType: T.Type
-    ) async throws -> T where T: Decodable {
-        
+  
+    func request<T>(endpoint: APIEndpoint, responseType: T.Type) async throws -> T where T : Decodable, T : Encodable {
         if shouldThrowError {
             throw errorToThrow
         }
