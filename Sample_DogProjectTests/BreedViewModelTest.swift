@@ -36,19 +36,17 @@ final class BreedViewModelTest: XCTestCase {
         // Prepare mock data
         let dogs = DogBreedsResponse(data: [Breed.mock])
         let data = try! JSONEncoder().encode(dogs)
-
-        mockAPIClient.resultData = data
-        mockAPIClient.shouldThrowError = false
-
-
-         await viewModel.getBreedList()
+        mockAPIClient.response = .success(data)
+        
+        await viewModel.getBreedList()
+        
         XCTAssertEqual(viewModel.breedList.count, 1)
+        XCTAssertNil(viewModel.isErrorMessage)
     }
     
     func testFetchDogsWithFailure() async {
         
-        mockAPIClient.shouldThrowError = true
-        mockAPIClient.errorToThrow = APIError.serverError(500)
+        mockAPIClient.response = .failure(APIError.serverError(500))
         
         await viewModel.getBreedList()
         

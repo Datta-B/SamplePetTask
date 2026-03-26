@@ -10,13 +10,14 @@ import SwiftUI
 struct LoginView: View {
 
     @StateObject private var loginVM = LoginViewModel()
-    @EnvironmentObject var coordinator: AppCoordinator
+    @EnvironmentObject var coordinator: AppFlowCoordinator
     @State private var showAlert = false
 
     var body: some View {
         ZStack {
             Color(AppImages.background)
                 .ignoresSafeArea()
+            
             VStack(spacing: 25){
                 
                 LogoView

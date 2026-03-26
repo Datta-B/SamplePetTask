@@ -37,5 +37,5 @@ struct RowView: View {
 }
 
 #Preview {
-    RowView(name: "Breed", image: Image("dummyImage"))
+    RowView(name: "Breed", image: Image(AppImages.dummyImage))
 }

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct profileMenuItemView: View {
+struct ProfileMenuItemView: View {
     let icon: String
     let title: String
     let action : () -> ()
@@ -32,6 +32,6 @@ struct profileMenuItemView: View {
 }
 
 #Preview {
-    profileMenuItemView(icon: "", title: "Test"){}
+    ProfileMenuItemView(icon: "", title: "Test"){}
 }
 

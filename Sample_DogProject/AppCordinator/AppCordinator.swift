@@ -9,7 +9,7 @@ import Foundation
 import Combine
 import SwiftUI
 
-class AppCoordinator: ObservableObject {
+class AppFlowCoordinator: ObservableObject {
     
     @AppStorage("isLoggedIn") private var isLoggedIn: Bool = false
     @AppStorage("userEmail") var userEmail: String = ""

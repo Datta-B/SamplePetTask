@@ -9,7 +9,7 @@ import SwiftUI
 
 @main
 struct Sample_DogProjectApp: App {
-    @State var coordinator = AppCoordinator()
+    @State var coordinator = AppFlowCoordinator()
 
     var body: some Scene {
         WindowGroup {

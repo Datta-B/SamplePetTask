@@ -11,7 +11,7 @@ import SwiftUI
 
 struct RootView: View {
 
-    @StateObject var coordinator = AppCoordinator()
+    @StateObject var coordinator = AppFlowCoordinator()
 
     var body: some View {
 

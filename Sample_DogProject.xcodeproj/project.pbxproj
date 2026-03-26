@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		F88F50742F75611900E1B2AD /* ViewInspector in Frameworks */ = {isa = PBXBuildFile; productRef = F88F50732F75611900E1B2AD /* ViewInspector */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		F813937B2F680A5200CB426D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -59,6 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F88F50742F75611900E1B2AD /* ViewInspector in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -135,6 +140,7 @@
 			);
 			name = Sample_DogProjectTests;
 			packageProductDependencies = (
+				F88F50732F75611900E1B2AD /* ViewInspector */,
 			);
 			productName = Sample_DogProjectTests;
 			productReference = F813937A2F680A5200CB426D /* Sample_DogProjectTests.xctest */;
@@ -195,6 +201,9 @@
 			);
 			mainGroup = F81393642F680A4F00CB426D;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				F88F50722F75611900E1B2AD /* XCRemoteSwiftPackageReference "ViewInspector" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F813936E2F680A4F00CB426D /* Products */;
 			projectDirPath = "";
@@ -570,6 +579,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F88F50722F75611900E1B2AD /* XCRemoteSwiftPackageReference "ViewInspector" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/nalexn/ViewInspector";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.10.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F88F50732F75611900E1B2AD /* ViewInspector */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F88F50722F75611900E1B2AD /* XCRemoteSwiftPackageReference "ViewInspector" */;
+			productName = ViewInspector;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F81393652F680A4F00CB426D /* Project object */;
 }

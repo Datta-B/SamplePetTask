@@ -39,8 +39,7 @@ final class GroupViewModelTest: XCTestCase {
         let group = GroupResponse(data: [Group.mock])
         let data = try! JSONEncoder().encode(group)
         
-        mockAPIClient.resultData = data
-        mockAPIClient.shouldThrowError = false
+        mockAPIClient.response = .success(data)
         
         
         await viewModel.getGroupList()
@@ -49,8 +48,7 @@ final class GroupViewModelTest: XCTestCase {
     
     func testFetchGroupWithFailure() async {
         
-        mockAPIClient.shouldThrowError = true
-        mockAPIClient.errorToThrow = APIError.serverError(500)
+        mockAPIClient.response = .failure(APIError.serverError(500))
         
         await viewModel.getGroupList()
         

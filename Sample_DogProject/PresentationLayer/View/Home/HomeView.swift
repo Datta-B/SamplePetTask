@@ -14,10 +14,9 @@ enum SelectionType: String, CaseIterable {
 }
 
 struct HomeView: View {
+    
     @EnvironmentObject var breedVM: BreedViewModel
     @EnvironmentObject var groupVM: GroupViewModel
-//    @EnvironmentObject var router: Router
-    
     @State private var selectedType: SelectionType = .breeds
     
     private var title: String {
@@ -88,7 +87,7 @@ private struct LoadingView: View {
 /// Breed List
 private struct BreedListView: View {
     @ObservedObject var breedVM: BreedViewModel
-    @EnvironmentObject var router: Router
+    @EnvironmentObject var router: HomeRouter
 
     var body: some View {
         if breedVM.isLoading {
@@ -127,7 +126,8 @@ private struct GroupListView: View {
 
 #Preview {
     HomeView()
-        .environmentObject(Router())
-        
-        
+        .environmentObject(HomeRouter())
+        .environmentObject(BreedViewModel.mock)
+        .environmentObject(GroupViewModel.Mock)
+    
 }

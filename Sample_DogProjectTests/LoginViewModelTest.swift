@@ -9,7 +9,7 @@ import XCTest
 @testable import Sample_DogProject
 
 @MainActor
-final class LoginViewTest: XCTestCase {
+final class LoginViewModelTest: XCTestCase {
     
     var loginVm : LoginViewModel!
     
@@ -26,7 +26,7 @@ final class LoginViewTest: XCTestCase {
     func testValidateLogin() async {
         
         loginVm.emailID =  "test@example.com"
-        loginVm.password = "1234"
+        loginVm.password = "123456"
         
         let result = await loginVm.validateLogin()
         
@@ -48,7 +48,7 @@ final class LoginViewTest: XCTestCase {
         case .success:
             XCTFail("Expected failure due to Empty Email")
         case .failure(let message):
-            XCTAssertEqual(message, "Email ID Can't be empty")
+            XCTAssertEqual(message, "Email address cannot be empty.")
         }
     }
     
@@ -63,7 +63,7 @@ final class LoginViewTest: XCTestCase {
         case .success:
             XCTFail("Expected failure due to Empty password")
         case .failure(let message):
-            XCTAssertEqual(message, "Password Can't be empty")
+            XCTAssertEqual(message, "Password cannot be empty.")
         }
     }
     
@@ -77,14 +77,14 @@ final class LoginViewTest: XCTestCase {
         case .success:
             XCTFail("Expected failure due to invalid email")
         case .failure(let message):
-            XCTAssertEqual(message, "Invalid email address")
+            XCTAssertEqual(message, "Please enter a valid email address.")
         }
     }
     
     func testIncorrectPassword() async {
         
         loginVm.emailID = "test@example.com"
-        loginVm.password = "123456"
+        loginVm.password = "1234"
         
         let result = await loginVm.validateLogin()
         
@@ -92,7 +92,7 @@ final class LoginViewTest: XCTestCase {
         case .success:
             XCTFail("Expected failure due to incorrect password")
         case .failure(let message):
-            XCTAssertEqual(message, "Incorrect password")
+            XCTAssertEqual(message, "Incorrect password.")
         }
     }
 }

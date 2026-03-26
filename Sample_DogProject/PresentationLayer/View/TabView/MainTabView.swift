@@ -9,9 +9,9 @@ import SwiftUI
 
 struct MainTabView: View {
     
-    @StateObject var router = Router()
-    @StateObject var profileRouter = Router()
-    @EnvironmentObject var coordinator: AppCoordinator
+    @StateObject var homeRouter = HomeRouter()
+    @StateObject var profileRouter = ProfileRouter()
+    @EnvironmentObject var coordinator: AppFlowCoordinator
     
     @StateObject private var breedVM: BreedViewModel
     @StateObject private var groupVM: GroupViewModel
@@ -30,32 +30,39 @@ struct MainTabView: View {
     
        var body: some View {
            TabView {
-               NavigationStack(path: $router.path) {
+               NavigationStack(path: $homeRouter.path) {
                    HomeView()
                        .environmentObject(breedVM)
                        .environmentObject(groupVM)
-                       .navigationDestination(for: AppRoute.self) { route in
-                           switch route {
-
-                           case .breedDetail(let breed):
-                               BreedDetailView(breed: breed)
-                           }
+                       .navigationDestination(for: HomeRoute.self) { route in
+                           destination(for: route)
                        }
                }
                .tabItem {
-                   Label("Dashboard", systemImage: "house")
+                   Label(TabName.dashboard, systemImage: TabIcon.dashboard)
                }
                NavigationStack(path: $profileRouter.path) {
                   MyProfileView()
                        
                }
                .tabItem {
-                   Label("Profile", systemImage: "person")
+                   Label(TabName.profile, systemImage: TabIcon.profile)
                }
            }
-           .environmentObject(router)
+           .environmentObject(homeRouter)
            .environmentObject(coordinator)
        }
+    
+    
+    ///  Breed
+    @ViewBuilder
+       private func destination(for route: HomeRoute) -> some View {
+           switch route {
+           case .breedDetail(let breed):
+               BreedDetailView(breed: breed)
+           }
+       }
+    
 }
 
 #Preview {

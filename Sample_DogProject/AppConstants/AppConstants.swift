@@ -72,3 +72,13 @@ struct LoginValidationStrings {
     
     static let correctPassword = "123456"
 }
+
+struct TabName {
+    static let dashboard = "Dashboard"
+    static let profile = "Profile"
+}
+
+struct TabIcon {
+    static let dashboard = "house"
+    static let profile = "person"
+}

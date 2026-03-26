@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MyProfileView: View {
     
-    @EnvironmentObject var coordinator: AppCoordinator
+    @EnvironmentObject var coordinator: AppFlowCoordinator
     @State var showAlert : Bool = false
     
     var body: some View {
@@ -23,11 +23,11 @@ struct MyProfileView: View {
                 
                 VStack(spacing: 16) {
                     
-                    profileMenuItemView(icon: AppImages.settings, title: AppStrings.Settings){}
+                    ProfileMenuItemView(icon: AppImages.settings, title: AppStrings.Settings){}
                     
-                    profileMenuItemView(icon: AppImages.notifications, title: AppStrings.Notification){}
+                    ProfileMenuItemView(icon: AppImages.notifications, title: AppStrings.Notification){}
                     
-                    profileMenuItemView(icon: AppImages.HelpAndSupport, title: AppStrings.HelpAndSupport){}
+                    ProfileMenuItemView(icon: AppImages.HelpAndSupport, title: AppStrings.HelpAndSupport){}
                     
                     LogOutButton(action: {
                         showAlert.toggle()
@@ -41,16 +41,13 @@ struct MyProfileView: View {
         .disabled(showAlert)
         .overlay {
             if showAlert{
-                CustomAlertView(isPresented: $showAlert,message: AppStrings.logoutText, primaryButtonLabel: AppStrings.Yes, primaryButtonAction: {
-                    coordinator.logout()
-                },secondaryButtonLabel: AppStrings.No,secondaryButtonAction: {
-                    showAlert.toggle()
-                }, color: .appPrimary)
-                .padding(.horizontal,24)
+                ShowAlert(showAlert: $showAlert)
             }
         }
     }
 }
+
+
 
 struct ProfileHeader: View {
     let email: String
@@ -65,7 +62,21 @@ struct ProfileHeader: View {
     }
 }
 
+struct ShowAlert : View {
+    @Binding var showAlert : Bool
+    @EnvironmentObject var coordinator: AppFlowCoordinator
+
+    var body: some View {
+        CustomAlertView(isPresented: $showAlert,message: AppStrings.logoutText, primaryButtonLabel: AppStrings.Yes, primaryButtonAction: {
+            coordinator.logout()
+        },secondaryButtonLabel: AppStrings.No,secondaryButtonAction: {
+            showAlert.toggle()
+        }, color: .appPrimary)
+        .padding(.horizontal,24)
+    }
+}
+
 #Preview {
     MyProfileView()
-        .environmentObject(AppCoordinator())
+        .environmentObject(AppFlowCoordinator())
 }

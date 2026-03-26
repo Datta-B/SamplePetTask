@@ -33,3 +33,14 @@ class BreedViewModel : ObservableObject {
         }
     }
 }
+
+///
+extension BreedViewModel {
+static var mock: BreedViewModel {
+    let vm = BreedViewModel(useCase: MockBreedUseCase())
+    vm.breedList = [.mock]
+    vm.isLoading = false
+    return vm
+  }
+}
+
