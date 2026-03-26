@@ -18,24 +18,15 @@ struct profileMenuItemView: View {
         } label: {
             HStack(spacing: 12) {
                 Image(systemName: icon)
-                    .font(.system(size: 20))
-                    .foregroundColor(Color("AppPrimary"))
-                
+                    .fontStyle(size: 20,color: .appPrimary)
                 Text(title)
-                    .font(.system(size: 17, weight: .medium))
-                    .foregroundColor(.primary)
-                
+                    .fontStyle(size: 17,weight: .medium,color: .appPrimary)
                 Spacer()
                 
-                Image(systemName: "chevron.right")
-                    .font(.system(size: 14))
-                    .foregroundColor(.secondary)
+                Image(systemName: AppImages.chevronImage)
+                    .fontStyle(size: 14,color: .primary)
             }
-            .padding(16)
-            .background(
-                RoundedRectangle(cornerRadius: 16)
-                    .fill(Color.white)
-            )
+            .cardStyle()
         }
     }
 }

@@ -28,19 +28,23 @@ class LoginViewModel: ObservableObject {
         
         try? await Task.sleep(nanoseconds: 2_000_000_000)
         
-        guard  !emailID.isEmpty, emailID != " " else{
-            return .failure("Email ID Can't be empty")
+        let trimmedEmail = emailID.trimmingCharacters(in: .whitespacesAndNewlines)
+        let trimmedPassword = password.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        guard !trimmedEmail.isEmpty else {
+            return .failure(LoginValidationStrings.emptyEmail)
         }
-        guard  !password.isEmpty, password != " " else{
-            return .failure("Password Can't be empty")
+        
+        guard !trimmedPassword.isEmpty else {
+            return .failure(LoginValidationStrings.emptyPassword)
         }
-    
-        guard isValidEmail(emailID) else {
-            return .failure("Invalid email address")
+        
+        guard isValidEmail(trimmedEmail) else {
+            return .failure(LoginValidationStrings.invalidEmail)
         }
-
-        guard password != "123456" else {
-            return .failure("Incorrect password")
+        
+        guard trimmedPassword == LoginValidationStrings.correctPassword else {
+            return .failure(LoginValidationStrings.incorrectPassword)
         }
         return .success
     }

@@ -11,46 +11,56 @@ struct LoginView: View {
 
     @StateObject private var loginVM = LoginViewModel()
     @EnvironmentObject var coordinator: AppCoordinator
-    
+    @State private var showAlert = false
+
     var body: some View {
         ZStack {
-            Color("background")
+            Color(AppImages.background)
                 .ignoresSafeArea()
             VStack(spacing: 25){
-                Image(systemName: "person.circle.fill")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 110, height: 110)
-                    .foregroundColor(.appPrimary)
-                Text("Welcome Back")
-                    .bold()
-                    .font(.largeTitle)
-                    .foregroundColor(.appPrimary)
-
-                TextFieldsViews(placeHolder: "sample@gmail.com", isSecureField: false, label: "Email Address", text: $loginVM.emailID)
-                TextFieldsViews(placeHolder: "*******", isSecureField: true, label: "Password", text: $loginVM.password)
-                Button {
-                   loginButtonTapped()
-                } label: {
-                    buttonType
-                }
-                .padding()
-                .background(Color.appPrimary)
-                .foregroundStyle(.white)
-                .clipShape(RoundedRectangle(cornerRadius: 14))
-                .disabled(loginVM.isLoading)
-                .animation(.easeInOut(duration: 0.25), value: loginVM.isLoading)
                 
+                LogoView
+                
+                TextView
+                
+                TextFieldsViews(placeHolder: AppPlaceholders.email, isSecureField: false, label: AppPlaceholders.emailLabel, text: $loginVM.emailID)
+                
+                TextFieldsViews(placeHolder: AppPlaceholders.password, isSecureField: true, label: AppPlaceholders.passwordLabel, text: $loginVM.password)
+                
+                PrimaryButton(title: AppStrings.loginButton, radius: 14, backgroundColor: .appPrimary, textColor: .white,action:  {
+                    loginButtonTapped()
+                }, isLoading:loginVM.isLoading)
             }
             .padding(.horizontal)
-            .alert(isPresented: $loginVM.isError) {
-                Alert(
-                    title: Text("Login Error"),
-                    message: Text(loginVM.errorMessage),
-                    dismissButton: .default(Text("OK"))
-                )
-            }
-            
+            .disabled(loginVM.isError)
+        }
+        .overlay {
+            if loginVM.isError{errorAlertOverlay}
+        }
+    }
+    
+    private var LogoView : some View {
+        Image(systemName: AppImages.userIcon)
+            .resizable()
+            .scaledToFit()
+            .frame(width: 120,height: 120)
+            .foregroundColor(.appPrimary)
+    }
+    
+    private var  TextView : some  View {
+        Text(AppStrings.welcomeTitle)
+            .bold()
+            .font(.largeTitle)
+            .foregroundColor(.appPrimary)
+        
+    }
+    
+    private var errorAlertOverlay: some View {
+        ZStack {
+            Color.black.opacity(0.4)
+                .ignoresSafeArea()
+            CustomAlertView(isPresented: $loginVM.isError,title: AppStrings.loginErrorTitle,message: loginVM.errorMessage, primaryButtonLabel: AppStrings.okText, primaryButtonAction: {}, color: .appPrimary)
+            .padding(.horizontal)
         }
     }
     
@@ -59,7 +69,6 @@ struct LoginView: View {
             let result = await loginVM.validateLogin()
             switch result {
             case .success:
-                print("Login successful")
                 coordinator.loginSuccess(email: loginVM.emailID)
             case .failure(let message):
                 loginVM.errorMessage = message
@@ -68,17 +77,6 @@ struct LoginView: View {
         }
     }
     
-    @ViewBuilder
-    private var buttonType : some View {
-        if loginVM.isLoading {
-            ProgressView()
-                .tint(.white)
-        }else {
-            Text("Login")
-                .fontWeight(.semibold)
-                .frame(maxWidth: .infinity)
-        }
-    }
 }
 
 #Preview {

@@ -10,57 +10,60 @@ import SwiftUI
 struct MyProfileView: View {
     
     @EnvironmentObject var coordinator: AppCoordinator
+    @State var showAlert : Bool = false
     
     var body: some View {
         ZStack {
-            Color("Background")
+            Color(.background)
                 .ignoresSafeArea()
             
             VStack(spacing: 24) {
-                Image(systemName: "person.circle.fill")
-                    .font(.system(size: 80))
-                    .foregroundColor(Color("AppPrimary"))
                 
-                Text(coordinator.userEmail)
-                    .font(.system(size: 16))
-                    .foregroundColor(.secondary)
-                
+                ProfileHeader(email: coordinator.userEmail)
                 
                 VStack(spacing: 16) {
-                    profileMenuItemView(icon: "gear", title: "Settings"){}
-                    profileMenuItemView(icon: "bell", title: "Notifications"){}
-                    profileMenuItemView(icon: "questionmark.circle", title: "Help & Support"){}
                     
-                    Button {
-                        coordinator.logout()
-                    } label: {
-                        HStack(spacing: 12) {
-                            Image(systemName: "rectangle.portrait.and.arrow.right")
-                                .font(.system(size: 20))
-                            
-                            Text("Logout")
-                                .font(.system(size: 17, weight: .medium))
-                            
-                            Spacer()
-                        }
-                        .foregroundColor(.red)
-                        .padding(16)
-                        .background(
-                            RoundedRectangle(cornerRadius: 16)
-                                .fill(Color.white)
-                        )
-                    }
+                    profileMenuItemView(icon: AppImages.settings, title: AppStrings.Settings){}
+                    
+                    profileMenuItemView(icon: AppImages.notifications, title: AppStrings.Notification){}
+                    
+                    profileMenuItemView(icon: AppImages.HelpAndSupport, title: AppStrings.HelpAndSupport){}
+                    
+                    LogOutButton(action: {
+                        showAlert.toggle()
+                    }, title: AppStrings.loginButton)
                 }
-                .padding(.horizontal, 32)
-                .padding(.top, 16)
             }
-            .padding(.top, 40)
-            
-          }
-      }
+            .padding(.horizontal, 32)
+            .padding(.top, 16)
+        }
+        .padding(.top, 40)
+        .disabled(showAlert)
+        .overlay {
+            if showAlert{
+                CustomAlertView(isPresented: $showAlert,message: AppStrings.logoutText, primaryButtonLabel: AppStrings.Yes, primaryButtonAction: {
+                    coordinator.logout()
+                },secondaryButtonLabel: AppStrings.No,secondaryButtonAction: {
+                    showAlert.toggle()
+                }, color: .appPrimary)
+                .padding(.horizontal,24)
+            }
+        }
     }
+}
 
-
+struct ProfileHeader: View {
+    let email: String
+    
+    var body: some View {
+        VStack(spacing: 8) {
+            Image(systemName: AppImages.userIcon)
+                .fontStyle(size: 80, color: .appPrimary)
+            Text(email)
+                .fontStyle(size: 16, color: .secondary)
+        }
+    }
+}
 
 #Preview {
     MyProfileView()

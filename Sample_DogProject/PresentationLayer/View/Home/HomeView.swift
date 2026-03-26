@@ -14,113 +14,120 @@ enum SelectionType: String, CaseIterable {
 }
 
 struct HomeView: View {
-//    
-//    @StateObject private var breedVM: BreedViewModel
-//    @StateObject private var groupVM: GroupViewModel
-    
     @EnvironmentObject var breedVM: BreedViewModel
     @EnvironmentObject var groupVM: GroupViewModel
+//    @EnvironmentObject var router: Router
+    
+    @State private var selectedType: SelectionType = .breeds
     
     private var title: String {
-        selectedType == .breeds ? "Dog Breeds" : "Dog Groups"
+        selectedType == .breeds ? HomeStrings.breedsTitle : HomeStrings.groupsTitle
     }
-
-//    init() {
-//        let apiClient = NetworkManagerService()
-//        
-//        let breedRepo = BreedRepositoryImpl(service: apiClient)
-//        let groupRepo = GroupRepositoryImpl(service: apiClient)
-//        
-//        let breedUseCase = GetDogBreedsUseCase(repository: breedRepo)
-//        let groupUseCase = GetGroupUseCase(repository: groupRepo)
-//        
-//        let breedVM = BreedViewModel(useCase: breedUseCase)
-//        let groupVM = GroupViewModel(useCase: groupUseCase)
-//        
-//        _breedVM = StateObject(wrappedValue: breedVM)
-//        _groupVM = StateObject(wrappedValue: groupVM)
-//    }
-    
-    @State var selectedType : SelectionType = .breeds
-    @EnvironmentObject var router: Router
     
     var body: some View {
-        VStack{
-            Picker("Select", selection: $selectedType) {
-                ForEach(SelectionType.allCases, id: \.self) { type in
-                    Text(type.rawValue)
-                }
-            }
-            .pickerStyle(.segmented)
-            .padding()
-            if selectedType == .breeds{
-                if breedVM.isLoading{
-                    Spacer()
-                    ProgressView {
-                        Text("Fetching data...")
-                    }
-                    .tint(.green)
-                    Spacer()
-                }else{
-                    List(breedVM.breedList){ breed in
-                        NavigationLink(value: AppRoute.breedDetail(breed)) {
-                            RowView(name: breed.attributes.name, image: Image("dummyImage"))
-                        }
-                    }
-                    .refreshable {
-                        Task{
-                            await loadCurrentList()
-                        }
-                    }
-                }
-            }else{
-                if groupVM.isLoading{
-                    Spacer()
-                    ProgressView {
-                        Text("Fetching data...")
-                    }
-                    .tint(.green)
-                    Spacer()
-                }else{
-                    List(groupVM.groupList){ group in
-                        RowView(name: group.attributes.name, image: Image("dummyImage"))
-                    }
-                    .refreshable {
-                        Task{
-                            await loadCurrentList()
-                        }
-                    }
-                }
-                
-            }
-            
+        VStack {
+            SelectionPicker(selectedType: $selectedType)
+            currentListView
         }
         .navigationTitle(title)
         .task { await loadCurrentList() }
-        .onChange(of: selectedType) { oldValue, newValue in
-            Task {
-                await loadCurrentList()
-            }
+        .onChange(of: selectedType) { _, _ in
+            Task { await loadCurrentList() }
         }
     }
     
-    //
     private func loadCurrentList() async {
-        if selectedType == .breeds {
-            if breedVM.breedList.isEmpty{
-                await breedVM.getBreedList()
-                
+        if selectedType == .breeds, breedVM.breedList.isEmpty {
+            await breedVM.getBreedList()
+        } else if selectedType == .groups, groupVM.groupList.isEmpty {
+            await groupVM.getGroupList()
+        }
+    }
+    
+    @ViewBuilder
+    private var currentListView: some View {
+        switch selectedType {
+        case .breeds:
+            BreedListView(breedVM: breedVM)
+        case .groups:
+            GroupListView(groupVM: groupVM)
+        }
+    }
+
+}
+
+// MARK: - Subviews
+
+/// Segmented Picker
+private struct SelectionPicker: View {
+    @Binding var selectedType: SelectionType
+    
+    var body: some View {
+        Picker(HomeStrings.select, selection: $selectedType) {
+            ForEach(SelectionType.allCases, id: \.self) { type in
+                Text(type.rawValue)
             }
+        }
+        .pickerStyle(.segmented)
+        .padding()
+    }
+}
+
+/// Loading State
+private struct LoadingView: View {
+    var body: some View {
+        Spacer()
+        ProgressView {
+            Text(HomeStrings.fetchingData)
+        }
+        .tint(.green)
+        Spacer()
+    }
+}
+
+/// Breed List
+private struct BreedListView: View {
+    @ObservedObject var breedVM: BreedViewModel
+    @EnvironmentObject var router: Router
+
+    var body: some View {
+        if breedVM.isLoading {
+            LoadingView()
         } else {
-            if groupVM.groupList.isEmpty{
-                await groupVM.getGroupList()
-                
+            ScrollView{
+                ForEach(breedVM.breedList) { breed in
+                    Button {
+                        router.push(.breedDetail(breed))
+                    } label: {
+                        RowView(name: breed.attributes.name, image: Image(AppImages.dummyImage))
+                    }
+                    .buttonStyle(.plain)
+                }
             }
         }
     }
 }
 
+private struct GroupListView: View {
+    @ObservedObject var groupVM: GroupViewModel
+    
+    var body: some View {
+        if groupVM.isLoading {
+            LoadingView()
+        } else {
+            ScrollView{
+                ForEach(groupVM.groupList) { group in
+                    RowView(name: group.attributes.name, image: Image(AppImages.dummyImage))
+                }
+            }
+        }
+    }
+}
+
+
 #Preview {
     HomeView()
         .environmentObject(Router())
+        
+        
 }
