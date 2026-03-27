@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		F807707F2F766569000514D8 /* ViewInspector in Frameworks */ = {isa = PBXBuildFile; productRef = F807707E2F766569000514D8 /* ViewInspector */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		F813937B2F680A5200CB426D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -59,6 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F807707F2F766569000514D8 /* ViewInspector in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -135,6 +140,7 @@
 			);
 			name = Sample_DogProjectTests;
 			packageProductDependencies = (
+				F807707E2F766569000514D8 /* ViewInspector */,
 			);
 			productName = Sample_DogProjectTests;
 			productReference = F813937A2F680A5200CB426D /* Sample_DogProjectTests.xctest */;
@@ -196,6 +202,7 @@
 			mainGroup = F81393642F680A4F00CB426D;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
+				F807707D2F766569000514D8 /* XCRemoteSwiftPackageReference "ViewInspector" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F813936E2F680A4F00CB426D /* Products */;
@@ -572,6 +579,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F807707D2F766569000514D8 /* XCRemoteSwiftPackageReference "ViewInspector" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/nalexn/ViewInspector";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.10.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F807707E2F766569000514D8 /* ViewInspector */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F807707D2F766569000514D8 /* XCRemoteSwiftPackageReference "ViewInspector" */;
+			productName = ViewInspector;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F81393652F680A4F00CB426D /* Project object */;
 }

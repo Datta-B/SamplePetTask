@@ -17,6 +17,7 @@ struct AppImages {
     static let chevronImage = "chevron.right"
     static let dogImage = "dogPic"
     static let dummyImage = "dummyImage"
+    static let logoutImage = "rectangle.portrait.and.arrow.right"
     
 }
 
@@ -30,6 +31,7 @@ struct AppPlaceholders {
 struct AppStrings {
     static let welcomeTitle = "Welcome Back"
     static let loginButton = "Login"
+    static let logoutButton = "Logout"
     static let loginErrorTitle = "Login Error"
     static let loginErrorMessage = "Something went wrong. Please try again."
     static let okText = "Ok"

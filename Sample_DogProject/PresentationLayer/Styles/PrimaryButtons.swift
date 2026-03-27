@@ -45,7 +45,7 @@ struct LogOutButton : View {
             action()
         } label: {
             HStack(spacing: 12) {
-                Image(systemName: "rectangle.portrait.and.arrow.right")
+                Image(systemName: AppImages.logoutImage)
                     .font(.system(size: 20))
                 
                 Text(title)

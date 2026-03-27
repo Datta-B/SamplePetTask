@@ -31,7 +31,7 @@ struct MyProfileView: View {
                     
                     LogOutButton(action: {
                         showAlert.toggle()
-                    }, title: AppStrings.loginButton)
+                    }, title: AppStrings.logoutButton)
                 }
             }
             .padding(.horizontal, 32)

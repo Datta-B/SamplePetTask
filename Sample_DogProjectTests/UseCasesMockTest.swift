@@ -7,6 +7,7 @@
 
 import XCTest
 @testable import Sample_DogProject
+import SwiftUI
 
 @MainActor
 final class UseCasesMockTest: XCTestCase {
@@ -29,6 +30,3 @@ final class UseCasesMockTest: XCTestCase {
         XCTAssertEqual(response.data.first, Group.mock)
     }
 }
-
-
-
