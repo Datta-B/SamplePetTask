@@ -17,7 +17,6 @@ struct Sample_DogProjectApp: App {
             if isActive{
                 SplashScreen()
                     .onAppear {
-                        /// Can Use also use .task as well
                         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                             withAnimation {
                                 isActive.toggle()
