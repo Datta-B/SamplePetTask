@@ -33,12 +33,4 @@ class GroupViewModel : ObservableObject {
     }
 }
 
-// MARK:- For Mock Data
-extension GroupViewModel {
-    static var Mock : GroupViewModel {
-        let vm = GroupViewModel(useCase: MockGroupUseCase())
-        vm.groupList = [.mock]
-        vm.isLoading = false
-        return vm
-    }
-}
+

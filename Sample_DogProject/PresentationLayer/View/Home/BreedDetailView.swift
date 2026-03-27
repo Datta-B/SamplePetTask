@@ -86,8 +86,6 @@ private struct BreedInfoSection: View {
                 value: breed.relationships.group.data.id
             )
 
-            Text(BreedStrings.aboutBreed)
-                .font(.headline)
         }
         .padding()
         .customShadow()

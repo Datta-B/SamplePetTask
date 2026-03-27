@@ -67,26 +67,26 @@ struct GroupResponse: Codable {
     let data: [Group]
 }
 
-struct Group: Codable,Identifiable {
+struct Group: Codable,Identifiable,Hashable {
     let id: String
     let type: String
     let attributes: GroupAttributes
     let relationships: GroupRelationships
 }
 
-struct GroupAttributes: Codable {
+struct GroupAttributes: Codable,Hashable {
     let name: String
 }
 
-struct GroupRelationships: Codable {
+struct GroupRelationships: Codable,Hashable {
     let breeds: BreedsRelationship
 }
 
-struct BreedsRelationship: Codable {
+struct BreedsRelationship: Codable,Hashable {
     let data: [BreedReference]
 }
 
-struct BreedReference: Codable {
+struct BreedReference: Codable,Hashable {
     let id: String
     let type: String
 }

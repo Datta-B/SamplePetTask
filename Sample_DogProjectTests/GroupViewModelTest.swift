@@ -56,4 +56,5 @@ final class GroupViewModelTest: XCTestCase {
         XCTAssertNotNil(viewModel.isErrorMessage)
         
     }
+
 }

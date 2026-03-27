@@ -127,7 +127,14 @@ private struct GroupListView: View {
 #Preview {
     HomeView()
         .environmentObject(HomeRouter())
-        .environmentObject(BreedViewModel.mock)
-        .environmentObject(GroupViewModel.Mock)
-    
+        .environmentObject({
+            let vm = BreedViewModel(useCase: MockBreedUseCase())
+            vm.breedList = [Breed.mock]
+            return vm
+        }())
+        .environmentObject({
+            let vm = GroupViewModel(useCase: MockGroupUseCase())
+            vm.groupList = [Group.mock]
+            return vm
+        }())
 }

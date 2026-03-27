@@ -54,4 +54,5 @@ final class BreedViewModelTest: XCTestCase {
         XCTAssertNotNil(viewModel.isErrorMessage)
         
     }
+
 }
