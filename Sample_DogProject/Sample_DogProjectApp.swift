@@ -10,11 +10,24 @@ import SwiftUI
 @main
 struct Sample_DogProjectApp: App {
     @State var coordinator = AppFlowCoordinator()
-
+    @State private var isActive = true
+    
     var body: some Scene {
         WindowGroup {
-            RootView()
-                .environmentObject(coordinator)
+            if isActive{
+                SplashScreen()
+                    .onAppear {
+                        /// Can Use also use .task as well
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                            withAnimation {
+                                isActive.toggle()
+                            }
+                        }
+                    }
+            }else{
+                RootView()
+                    .environmentObject(coordinator)
+            }
         }
     }
 }
