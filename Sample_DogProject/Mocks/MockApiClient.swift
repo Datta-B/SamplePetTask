@@ -22,7 +22,7 @@ final class MockAPIClient: APIClient {
     ) async throws -> T where T: Decodable, T: Encodable {
         
         guard let response else {
-            throw NSError(domain: "NoMockRes", code: -1)
+            throw NSError(domain: "NoMockResponse", code: -1)
         }
         
         switch response {
