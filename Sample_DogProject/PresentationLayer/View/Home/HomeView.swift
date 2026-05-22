@@ -109,16 +109,45 @@ private struct BreedListView: View {
 
 private struct GroupListView: View {
     @ObservedObject var groupVM: GroupViewModel
-    
+    let columns = [GridItem(.flexible()),GridItem(.flexible())]
     var body: some View {
         if groupVM.isLoading {
             LoadingView()
         } else {
             ScrollView{
-                ForEach(groupVM.groupList) { group in
-                    RowView(name: group.attributes.name, image: Image(AppImages.dummyImage))
+                LazyVGrid(columns: columns, spacing: 16) {
+                    ForEach(groupVM.groupList) { group in
+                        GeometryReader { geo in
+                            VStack(spacing: 12) {
+                                Image(AppImages.dogImage)
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 60, height: 60)
+                                    .clipShape(Circle())
+                                    .padding(.top, 2)
+                                
+                                Text(group.attributes.name).bold()
+                                    .lineLimit(2)
+                                    .multilineTextAlignment(.center)
+                                    .frame(maxWidth: .infinity)
+                            }
+                            .frame(width: geo.size.width, height: geo.size.width)
+                            .background(Color.cyan.opacity(0.4))
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                            .shadow(radius: 8)
+                            //.customShadow()
+                            
+                        }
+                        .padding()
+                        .frame(width:UIScreen.main.bounds.width/2 - 10,height: 150)
+                    }
                 }
             }
+//            ScrollView{
+//                ForEach(groupVM.groupList) { group in
+//                    RowView(name: group.attributes.name, image: Image(AppImages.dummyImage))
+//                }
+//            }
         }
     }
 }
